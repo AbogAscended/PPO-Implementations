@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-class CNNGRU(nn.Module):
+class CRNN(nn.Module):
     def __init__(self, input_channels, gru_hidden_size, num_actions):
         super().__init__()
         self.cnn = nn.Sequential(
