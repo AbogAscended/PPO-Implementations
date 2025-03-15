@@ -17,7 +17,6 @@ class CRNN(nn.Module):
         self.gru = nn.GRU(
             input_size=256,
             hidden_size=gru_hidden_size,
-            batch_first=True
         )
         
         self.policy = nn.Linear(gru_hidden_size, num_actions)
@@ -26,9 +25,9 @@ class CRNN(nn.Module):
         batch_size = x.size(0)
         
         cnn_features = self.cnn(x.view(batch_size, *x.shape[2:]))
-        cnn_features = cnn_features.unsqueeze(1)
+        cnn_features = cnn_features.unsqueeze(0)
         
         gru_out, new_hidden = self.gru(cnn_features, hidden_state)
         
-        logits = self.policy(gru_out.squeeze(1))
+        logits = self.policy(gru_out.squeeze(0))
         return logits, new_hidden
